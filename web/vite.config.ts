@@ -17,7 +17,18 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
+
   resolve:{
     alias:{'@':path.resolve(__dirname,'./src')}
   },
+
+  server:{
+    proxy:{
+      "/api":{
+        target:"http://120.221.208.98:6012",
+        rewrite: (path) => path.replace(/^\/api/, '')
+      },
+    },
+  },
+
 })

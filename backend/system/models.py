@@ -40,7 +40,8 @@ class Menu(models.Model):
     url = models.CharField(max_length=255,db_comment="路由地址",unique=True)
     icon = models.CharField(max_length=255,db_comment="图标",null=True)
     parent = models.ForeignKey(null=True,to="self",on_delete=models.DO_NOTHING,db_constraint=False,db_comment="父类ID",db_column="parent")
-    #is_catalog = models.BooleanField(default=False,db_comment="是否目录")
+    is_catalog = models.BooleanField(default=False,db_comment="是否目录")
+    component_path = models.CharField(max_length=255,db_comment="组件地址",null=True)
     class Meta:
         db_table = "DTP_menu"
         db_table_comment = "Menu表"

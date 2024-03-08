@@ -85,7 +85,7 @@ DATABASES = {
         'NAME':CONF_NAME,
         'HOST':CONF_HOST,
         'PORT':CONF_PORT,
-        'USER':CONF_PORT,
+        'USER':CONF_USER,
         'PASSWORD':CONF_PASSWORD
     }
 }

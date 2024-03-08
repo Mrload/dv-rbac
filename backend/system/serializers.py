@@ -29,7 +29,6 @@ class RoleSerializer(serializers.ModelSerializer):
 
 # api路由序列化器
 class RouterSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Router
         fields = '__all__'
@@ -40,4 +39,14 @@ class RouterPermissionSerializer(serializers.ModelSerializer):
         model = RouterPermission
         fields = '__all__'
 
+# 前端Menu序列化器
+class MenuSerializer(serializers.ModelSerializer):
+    childrens = serializers.SerializerMethodField()
+    def get_childrens(self,obj):
+        if obj.menu_set.all():
+            return MenuSerializer(obj.menu_set.all(),many=True).data
 
+    class Meta:
+        model = Menu
+        fields = "__all__"
+        

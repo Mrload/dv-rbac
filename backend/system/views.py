@@ -62,3 +62,8 @@ class RouterViewSet(viewsets.ModelViewSet):
 class RouterPermissionViewSet(viewsets.ModelViewSet):
     queryset = RouterPermission.objects.all()
     serializer_class = RouterPermissionSerializer
+
+
+class MenuViewSet(viewsets.ModelViewSet):
+    queryset = Menu.objects.filter(parent__isnull=True).all()
+    serializer_class = MenuSerializer

@@ -1,25 +1,25 @@
 <template>
   
   <!-- 有子DOM递归渲染 -->
-  <el-sub-menu :index="menu.name" v-if="menu.childMenu">
+  <el-sub-menu :index="menu.url" v-if="menu.childrens">
     <template #title>
       <el-icon>
         <component :is="menu.icon" ></component>
       </el-icon>
-      <span>{{ menu.chineseName }}</span>
+      <span>{{ menu.alias }}</span>
     </template>
 
     <!-- 多级嵌套菜单渲染 -->
-    <sub-menu :menu="menuItem" v-for="menuItem in menu.childMenu" :key="menuItem.name"></sub-menu>
+    <SubMenu :menu="menuItem" v-for="menuItem in menu.childrens" :key="menuItem.name"></SubMenu>
   </el-sub-menu>
 
 
   <!-- 无子DOM -->
-  <el-menu-item :index="menu.name" v-else>
+  <el-menu-item :index="menu.url" v-else>
     <el-icon>
       <component :is="menu.icon"></component>
     </el-icon>
-    <template #title>{{ menu.chineseName }}</template>
+    <template #title>{{ menu.alias }}</template>
   </el-menu-item>
 
 </template>
