@@ -1,9 +1,10 @@
 import axios from "axios"
 import { get } from "lodash-es"
-import { getJWT, getCookie } from "@/util";
-import { ElMessage } from 'element-plus'
+import { getJWT, getCookie, setJWT, rmJWT } from "@/util";
+import router from "@/router"
 
 const baseURL = ''
+
 
 
 function createService() {
@@ -34,6 +35,7 @@ function createService() {
           message:'登录失效，请重新登录',
           type:'error'
         })
+        rmJWT()
       }
     })
 

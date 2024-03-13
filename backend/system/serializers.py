@@ -22,7 +22,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 # 角色序列化器
 class RoleSerializer(serializers.ModelSerializer):
-
+    canUseMenus = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Role
         fields = '__all__'
@@ -35,18 +35,25 @@ class RouterSerializer(serializers.ModelSerializer):
 
 # api路由权限表
 class RouterPermissionSerializer(serializers.ModelSerializer):
+    url = serializers.CharField(source="router.url",read_only=True)
     class Meta:
         model = RouterPermission
         fields = '__all__'
 
 # 前端Menu序列化器
 class MenuSerializer(serializers.ModelSerializer):
-    childrens = serializers.SerializerMethodField()
-    def get_childrens(self,obj):
-        if obj.menu_set.all():
-            return MenuSerializer(obj.menu_set.all(),many=True).data
+    #childrens = serializers.SerializerMethodField()
+    #def get_childrens(self,obj):
+    #    if obj.menu_set.all():
+    #        return MenuSerializer(obj.menu_set.all(),many=True).data
 
     class Meta:
         model = Menu
         fields = "__all__"
         
+# 模型序列化器
+class ModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Model
+        fields = "__all__"
+

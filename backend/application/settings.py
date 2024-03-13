@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_filters',
     'drf_spectacular',
     'system',
 ]
@@ -146,6 +147,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
         'system.utils.permission.HasRouterPermission',
     ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend',]
 }
 
 # JWT配置

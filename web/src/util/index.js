@@ -1,4 +1,5 @@
-
+import router from "@/router"
+import useMenuStore from "@/store/menus"
 
 
 export const getJWT=()=>{
@@ -11,6 +12,13 @@ export const getJWT=()=>{
 
 export const setJWT=(jwt)=>{
     localStorage.setItem('JWT',jwt)
+    const menuStore = useMenuStore()
+    menuStore.setMenuList([])
+}
+
+export const rmJWT = () => {
+  localStorage.removeItem("JWT")
+  router.replace({name:'login'})
 }
 
 export const getCookie = function (name) {

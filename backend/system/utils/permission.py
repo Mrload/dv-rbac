@@ -24,7 +24,7 @@ class HasRouterPermission(BasePermission):
         roles = request.user.roles.all()
 
         # 获取当前用户的角色可调用的所有路由权限
-        permissions = RouterPermission.objects.filter(related_roles__in=roles)
+        permissions = RouterPermission.objects.filter(related_role__in=roles)
 
         # 判断当前请求路径与方法是否在权限列表中
         has = permissions.filter(router__url=api,method=method).exists()

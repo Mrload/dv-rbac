@@ -1,9 +1,11 @@
 from rest_framework import viewsets
 from drf_spectacular.utils import extend_schema, extend_schema_view
+from django_filters import rest_framework as filters
 
 from .serializers import *
 
 from system.models import RouterPermission
+from system.utils.filter_backends import RoleMenuPermissionFilterBackend
 from system.utils.response import SuccessResponse,DetailResponse
 
 @extend_schema_view(
@@ -53,17 +55,39 @@ class RoleViewSet(viewsets.ModelViewSet):
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
 
-
 class RouterViewSet(viewsets.ModelViewSet):
     queryset = Router.objects.all()
     serializer_class = RouterSerializer
 
 
+class RouterPermissionFilter(filters.FilterSet):
+    class Meta:
+        model = RouterPermission
+        fields = ["related_role"]
+
+
 class RouterPermissionViewSet(viewsets.ModelViewSet):
     queryset = RouterPermission.objects.all()
     serializer_class = RouterPermissionSerializer
-
+    filterset_class = RouterPermissionFilter
 
 class MenuViewSet(viewsets.ModelViewSet):
-    queryset = Menu.objects.filter(parent__isnull=True).all()
+    queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+
+    def list(self,request):
+        
+        res = super().list(request)
+        print(res.data)
+        return res
+
+
+class ModelFilter(filters.FilterSet):
+    class Meta:
+        model = Model
+        fields = ["roles"]
+
+class ModelViewSet(viewsets.ModelViewSet):
+    queryset = Model.objects.all()
+    serializer_class = ModelSerializer
+    filterset_class = ModelFilter

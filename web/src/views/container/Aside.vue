@@ -17,6 +17,5 @@
   onMounted(() => {
     const menuStore = useMenusStore()
     menuList.value = menuStore.menuList
-    console.log("加载侧边",menuList.value)
   })
 </script>

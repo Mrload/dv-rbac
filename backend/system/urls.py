@@ -10,6 +10,7 @@ router.register(r'roles', RoleViewSet)
 router.register(r'routers', RouterViewSet)
 router.register(r'menus', MenuViewSet)
 router.register(r'router-permissions', RouterPermissionViewSet)
+router.register(r'models', ModelViewSet)
 
 urlpatterns = []
 
