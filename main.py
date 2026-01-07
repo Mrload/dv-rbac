@@ -3,13 +3,12 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from logging import getLogger
 
-from app import model_loader
+from app import model_loader  #  加载所有模型,不能删掉
 from app.config import settings
-from app.core.database import engine,AsyncSessionLocal
+from app.core.database import engine
 from app.core.exception_handler import  general_exception_handler
 from app.core.apis import router as api_router
 from app.core.logging import setup_logging
-from app.core.initial_data import init_super_user
 
 
 
@@ -23,9 +22,6 @@ logger = getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # 👉 启动逻辑
-    async with AsyncSessionLocal() as session:
-        await init_super_user(session)
-
     logger.info("应用启动...")
     yield
     # 👉 关闭逻辑

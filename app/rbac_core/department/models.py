@@ -16,24 +16,8 @@ class Department(DBBaseModel):
     path: Mapped[str] = mapped_column(String(255), nullable=False, index=True, comment="树路径")
 
     # 自关联
-    childrens: Mapped[list["Department"]] = relationship(
-        "Department",
-        foreign_keys=[parent_id],
-        back_populates="parent",
-        cascade="delete",
-    )
-
-    parent: Mapped["Department | None"] = relationship(
-        "Department",
-        remote_side=[id],
-        back_populates="childrens",
-    )
-
-    users = relationship(
-        "app.rbac_core.user.models.User",
-        secondary=user_department,
-        back_populates="departments",
-        lazy="selectin",
-    )
+    childrens: Mapped[list["Department"]] = relationship("Department", foreign_keys=[parent_id], back_populates="parent", cascade="delete")
+    parent: Mapped["Department | None"] = relationship("Department", remote_side=[id], back_populates="childrens")
+    users = relationship("app.rbac_core.user.models.User", secondary=user_department, back_populates="departments", lazy="selectin")
 
     __table_args__ = {"comment": "部门表"}

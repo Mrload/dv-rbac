@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Index, String, ForeignKey
+from sqlalchemy import Boolean, ForeignKey, Index, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import DBBaseModel
@@ -24,7 +24,7 @@ class Menu(DBBaseModel):
     childrens: Mapped[list["Menu"]] = relationship("Menu", foreign_keys=[parent_id], back_populates="parent", lazy="selectin")
 
     __table_args__ = (
-        Index("idx_menu_code", "code", unique=True, postgresql_where="deleted_at IS NULL"),
+        Index("idx_menu_code", "code", unique=True, postgresql_where="deleted_at IS NULL AND path IS NOT NULL"),
         Index("idx_menu_path", "path", unique=True, postgresql_where="deleted_at IS NULL"),
         {"comment": "菜单表"},
     )

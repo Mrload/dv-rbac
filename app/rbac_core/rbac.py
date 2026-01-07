@@ -19,7 +19,8 @@ permissions_cache = TTLCache(maxsize=1024, ttl=settings.ACCESS_TOKEN_EXPIRE_MINU
 # 角色缓存，key为user_id, value为角色列表,过期时间和AccessToken过期时间一致
 role_cache = TTLCache(maxsize=1024, ttl=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60)
 
-async def get_user_roles(db:AsyncSession,user_id:int,use_cache:bool=True) -> Sequence[Role]:
+
+async def get_user_roles(db: AsyncSession, user_id: int, use_cache: bool = True) -> Sequence[Role]:
     """
     获取用户角色
     """
@@ -38,6 +39,7 @@ async def get_user_roles(db:AsyncSession,user_id:int,use_cache:bool=True) -> Seq
         logger.info(f"缓存用户{user_id}的角色：{[r.name for r in roles]}")
     return roles
 
+
 async def check_is_superadmin(db: AsyncSession, user_id: int) -> bool:
     """
     检查用户是否有超级管理员角色
@@ -46,7 +48,8 @@ async def check_is_superadmin(db: AsyncSession, user_id: int) -> bool:
     logger.info(f"用户{user_id}的角色：{[r.name for r in roles]}")
     return any(r.name == "super_admin" for r in roles)
 
-async def get_user_permissions(db: AsyncSession, user_id: int,use_cache:bool=True) -> Sequence[Permission]:
+
+async def get_user_permissions(db: AsyncSession, user_id: int, use_cache: bool = True) -> Sequence[Permission]:
     """
     获取用户权限
     注意：不要尝试跳过Role,通过中间表直接关联查询，会丢失对角色有效性的校验，存在数据准确性风险
@@ -73,9 +76,9 @@ async def check_user_permission_by_path_and_method(db: AsyncSession, user_id: in
     # 检查超级管理员权限
     if await check_is_superadmin(db, user_id):
         return True
-    
+
     user_permissions = await get_user_permissions(db, user_id)
-    has = [p for p in user_permissions if p.type == "api" and p.api_path == api_path and p.api_method == api_method]
+    has = [p for p in user_permissions if p.api_path == api_path and p.api_method == api_method]
     return len(has) > 0
 
 
@@ -86,7 +89,6 @@ async def check_user_permission_by_name(db: AsyncSession, user_id: int, permissi
     # 检查超级管理员权限
     if await check_is_superadmin(db, user_id):
         return True
-    
+
     permissions = await get_user_permissions(db, user_id)
     return any(p.name == permission_name for p in permissions)
-

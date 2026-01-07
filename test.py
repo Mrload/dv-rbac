@@ -50,10 +50,22 @@ async def test_result():
         result = await db.execute(stmt)
         print(result.rowcount)
 
-    
+async def test1():
+    from main import app
+
+    for route in app.routes:
+        print(route.path)
+        print(route.name)
+        print(route.methods)
+        if hasattr(route, "summary"):
+            print(route.summary)
+        if hasattr(route, "description"):
+            print(route.description)
+        print("===================================")
+        
 
 if __name__ == "__main__":
     import asyncio
     # asyncio.run(test_password_hashing())
     # 测试分页查询
-    asyncio.run(test_result())
+    asyncio.run(test1())

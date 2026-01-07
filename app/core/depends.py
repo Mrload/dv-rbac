@@ -76,9 +76,12 @@ async def require_permission(request: Request, current_user: User = Depends(get_
         )
 
 
-def require_api_permission(permission_name: str, db: AsyncSession = Depends(get_db), current_user: User = Depends(get_current_user)):
+def api_permission_depends(permission_name: str, db: AsyncSession = Depends(get_db), current_user: User = Depends(get_current_user)):
     """
     权限依赖项，用于检查当前用户是否有指定API权限
+    使用时需要在路由函数中添加参数，例如：
+    async def some_api_endpoint(_ = Depends(api_permission_depends("api:read"))):
+        # 处理请求
     """
 
     async def _checker():

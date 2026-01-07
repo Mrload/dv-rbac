@@ -140,6 +140,7 @@ class CRUDService(Generic[DBModelType]):
         根据条件查询多条记录
         """
         stmt = self.get_select_stmt(options=options, **filters)
+        logger.info(f"stmt: {stmt}")
         result = await db.execute(stmt)
         return result.scalars().all()
 
